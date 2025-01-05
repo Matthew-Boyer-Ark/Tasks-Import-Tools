@@ -1,0 +1,161 @@
+[
+  {
+    "id": "76782394-9323-40a3-9ac7-1406c57cde76",
+    "name": "Phone01_采集清单_CTR演示",
+    "path": "D:\\录屏任务\\Phone01",
+    "targetPath": "采集清单_CTR演示",
+    "extra": {
+      "platform": "抖音",
+      "account": "央视文艺",
+      "title": "young在春晚"
+    }
+  },
+  {
+    "id": "70e85137-a05a-49ec-a4a2-932d5a53e26c",
+    "name": "Phone02_采集清单_CTR演示",
+    "path": "D:\\录屏任务\\Phone02",
+    "targetPath": "采集清单_CTR演示",
+    "extra": {
+      "platform": "快手",
+      "account": "湖南卫视",
+      "title": "湖南卫视小年夜春晚"
+    }
+  },
+  {
+    "id": "25133a75-e0a5-4300-af2e-6000472a261c",
+    "name": "Phone03_采集清单_CTR演示",
+    "path": "D:\\录屏任务\\Phone03",
+    "targetPath": "采集清单_CTR演示",
+    "extra": {
+      "platform": "B站",
+      "account": "神舟易讯",
+      "title": "北京卫视春晚“我的春天看我的”"
+    }
+  },
+  {
+    "id": "9d326173-326c-4237-bcea-94462b7cf08e",
+    "name": "Phone04_采集清单_CTR演示",
+    "path": "D:\\录屏任务\\Phone04",
+    "targetPath": "采集清单_CTR演示",
+    "extra": {
+      "platform": "快手",
+      "account": "湖南卫视",
+      "title": "湖南卫视小年夜春晚"
+    }
+  },
+  {
+    "id": "742d84d9-1259-4061-9a0e-ea3cbad7a679",
+    "name": "Phone05_采集清单_CTR演示",
+    "path": "D:\\录屏任务\\Phone05",
+    "targetPath": "采集清单_CTR演示",
+    "extra": {
+      "platform": "B站",
+      "account": "神舟易讯",
+      "title": "北京卫视春晚“我的春天看我的”"
+    }
+  },
+  {
+    "id": "8e971538-431c-4a02-8133-3a1895e2a9d4",
+    "name": "Phone06_采集清单_CTR演示",
+    "path": "D:\\录屏任务\\Phone06",
+    "targetPath": "采集清单_CTR演示",
+    "extra": {
+      "platform": "B站",
+      "account": "神舟易讯",
+      "title": "北京卫视春晚“我的春天看我的”"
+    }
+  },
+  {
+    "id": "0f9edce7-0cc9-405e-b077-5c10cec26e94",
+    "name": "Phone07_空闲",
+    "path": "D:\\录屏任务\\Phone07"
+  },
+  {
+    "id": "a05ad6f9-803f-48de-89aa-87f1da751d79",
+    "name": "Phone08_空闲",
+    "path": "D:\\录屏任务\\Phone08"
+  },
+  {
+    "id": "dcc08d6b-db17-44f5-89c3-0d440aa09dc7",
+    "name": "Phone09_空闲",
+    "path": "D:\\录屏任务\\Phone09"
+  },
+  {
+    "id": "5d32c00f-708b-4864-ab62-6c36149a5883",
+    "name": "Phone10_空闲",
+    "path": "D:\\录屏任务\\Phone10"
+  },
+  {
+    "id": "1185f60a-c56d-4dde-927b-6bd7c3e56d67",
+    "name": "Phone11_空闲",
+    "path": "D:\\录屏任务\\Phone11"
+  },
+  {
+    "id": "27cf072b-9a16-4bb3-a29e-99f5bde58f3a",
+    "name": "Phone12_空闲",
+    "path": "D:\\录屏任务\\Phone12"
+  },
+  {
+    "id": "ed1429e9-683b-47fb-92e5-0b3213becc5c",
+    "name": "Phone13_空闲",
+    "path": "D:\\录屏任务\\Phone13"
+  },
+  {
+    "id": "63ef859b-9216-46ed-b538-5cc6b9ef81fb",
+    "name": "Phone14_空闲",
+    "path": "D:\\录屏任务\\Phone14"
+  },
+  {
+    "id": "7eaa730f-f6e0-4ef2-b8ca-29c515f4712c",
+    "name": "Phone15_空闲",
+    "path": "D:\\录屏任务\\Phone15"
+  },
+  {
+    "id": "41c88506-89dd-47a0-bfa2-0c784a13603a",
+    "name": "Phone16_空闲",
+    "path": "D:\\录屏任务\\Phone16"
+  },
+  {
+    "id": "ff0b7678-e7fd-4a97-8bf0-fa733743d920",
+    "name": "Phone17_空闲",
+    "path": "D:\\录屏任务\\Phone17"
+  },
+  {
+    "id": "61c0bd1a-1dfd-49c2-a1f7-b388768dd7bf",
+    "name": "Phone18_空闲",
+    "path": "D:\\录屏任务\\Phone18"
+  },
+  {
+    "id": "a3531dc6-2987-4c3a-a198-5ec9cdac47c0",
+    "name": "Phone19_空闲",
+    "path": "D:\\录屏任务\\Phone19"
+  },
+  {
+    "id": "8818a9c8-5bd9-46e4-95db-af1c4151b7ee",
+    "name": "Phone20_空闲",
+    "path": "D:\\录屏任务\\Phone20"
+  },
+  {
+    "id": "afd67f28-fc42-4bbf-823d-b5f495c1301e",
+    "name": "导出文件",
+    "path": "D:\\录屏任务\\导出文件",
+    "targetPath": "2024跨年晚会测试"
+  },
+  {
+    "id": "f4776f17-2e77-44a4-a66a-239cc78774a3",
+    "name": "补传文件夹01（确认文件名命名）",
+    "path": "D:\\录屏任务\\补传专用01",
+    "targetPath": ""
+  },
+  {
+    "id": "f4999099-48ac-4334-9b22-63fa0c74ced6",
+    "name": "丰田直播录屏",
+    "path": "D:\\丰田经销商录屏任务\\丰田录屏文件",
+    "targetPath": "/GAC-TOYOTA测试"
+  },
+  {
+    "id": "6498692e-8ee0-47ce-8a80-9bcfabcf18af",
+    "name": "补传文件夹02（确认文件名命名）",
+    "path": "D:\\录屏任务\\补传专用02"
+  }
+]
