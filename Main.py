@@ -174,7 +174,7 @@ class TaskConfigApp(QMainWindow):
         if sys.platform == 'win32':  # Windows
             return Path.home() / "AppData" / "Roaming" / "flip" / "folders.json"
         elif sys.platform == 'darwin':  # macOS
-            return Path.home() / "Library" / "Application Support" / "Flip" / "folders.json"
+            return Path.home() / "Library" / "Application Support" / "flip" / "folders.json"
         else:  # 其他系统
             raise OSError("Unsupported operating system")
 
