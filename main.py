@@ -21,7 +21,7 @@ class TaskConfigApp(QMainWindow):
         self.phones_per_type = 0
         
         # 设置应用图标并添加调试信息
-        icon_path = Path(__file__).parent / "assets" / "app_icon.png"
+        icon_path = Path(__file__).parent / "assets" / "app_icon.icns"
         print(f"Looking for icon at: {icon_path}")  
         if icon_path.exists():
             print("Icon file found")
@@ -301,7 +301,7 @@ class TaskConfigApp(QMainWindow):
         msg.setText("配置已成功保存！原文件已备份！")
         
         # 设置图标
-        icon_path = Path(__file__).parent / "assets" / "app_icon.png"
+        icon_path = Path(__file__).parent / "assets" / "app_icon.icns."
         if icon_path.exists():
             icon = QIcon(str(icon_path))
             msg.setIconPixmap(icon.pixmap(32, 32))  # 设置较小的图标尺寸
