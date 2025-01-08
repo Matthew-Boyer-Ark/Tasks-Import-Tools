@@ -4,7 +4,7 @@
 
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                             QLabel, QPushButton, QFileDialog, QMessageBox,
-                            QLineEdit)
+                            QLineEdit, QHBoxLayout)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 import json
@@ -43,8 +43,9 @@ class TaskConfigApp(QMainWindow):
                 color: black;
                 background: transparent;
             }
-            QLabel#task_info {
+            QLabel#task_info, QLabel#file_info {
                 font-size: 18px;
+                font-weight: bold;
             }
             QLabel#task_info span {
                 color: #FF4500;
@@ -82,20 +83,28 @@ class TaskConfigApp(QMainWindow):
         self.main_layout.setSpacing(15)
         
         # 添加顶部弹性空间
-        self.main_layout.addStretch()
+        self.main_layout.addStretch(2)  # 减小顶部权重，从3改为2
+        
+        # 创建一个容器来包含标题和按钮
+        container = QVBoxLayout()
+        container.setSpacing(20)  # 设置标题和按钮之间的间距
         
         # 第一阶段组件
         self.file_label = QLabel("请选择任务模板文件(Excel)")
+        self.file_label.setObjectName("file_info")
         self.file_label.setAlignment(Qt.AlignCenter)
-        self.main_layout.addWidget(self.file_label)
+        container.addWidget(self.file_label)
         
         self.select_button = QPushButton("选择文件")
         self.select_button.setCursor(Qt.PointingHandCursor)
         self.select_button.clicked.connect(self.select_excel_file)
-        self.main_layout.addWidget(self.select_button)
+        container.addWidget(self.select_button)
+        
+        # 将容器添加到主布局
+        self.main_layout.addLayout(container)
         
         # 添加底部弹性空间
-        self.main_layout.addStretch()
+        self.main_layout.addStretch(3)  # 增加底部权重，从2改为3
         
         # 第二阶段组件
         self.task_info_label = QLabel()
@@ -122,40 +131,69 @@ class TaskConfigApp(QMainWindow):
         self.range_entry.hide()
         self.main_layout.addWidget(self.range_entry)
         
+        # 在确认按钮前添加一个水平布局来放置两个按钮
+        button_layout = QHBoxLayout()
+        
+        # 返回按钮
+        self.back_button = QPushButton("返回上一步")
+        self.back_button.setCursor(Qt.PointingHandCursor)
+        self.back_button.clicked.connect(self.back_to_first_stage)
+        self.back_button.hide()
+        button_layout.addWidget(self.back_button)
+        
+        # 确认按钮
         self.confirm_button = QPushButton("确认配置")
         self.confirm_button.setCursor(Qt.PointingHandCursor)
         self.confirm_button.clicked.connect(self.validate_and_process)
         self.confirm_button.hide()
-        self.main_layout.addWidget(self.confirm_button)
+        button_layout.addWidget(self.confirm_button)
+        
+        # 将按钮布局添加到主布局
+        self.main_layout.addLayout(button_layout)
         
         # 添加底部弹性空间
         self.main_layout.addStretch()
         
     def show_second_stage(self):
-        # 移除第一阶段的弹性空间
+        # 先隐藏第一阶段的组件
+        self.file_label.hide()
+        self.select_button.hide()
+        
+        # 清除所有布局
         while self.main_layout.count():
             item = self.main_layout.takeAt(0)
-            if item.widget():
-                item.widget().hide()
+            if item.layout():
+                while item.layout().count():
+                    child = item.layout().takeAt(0)
+                    if child.widget():
+                        child.widget().hide()
         
         # 添加顶部弹性空间
         self.main_layout.addStretch()
         
-        # 显示第二阶段组件
+        # 显示第二阶段组件并添加到布局
         self.task_info_label.show()
-        self.phones_label.show()
-        self.phones_entry.show()
-        self.range_label.show()
-        self.range_entry.show()
-        self.confirm_button.show()
-        
-        # 重新添加所有组件
         self.main_layout.addWidget(self.task_info_label)
+        
+        self.phones_label.show()
         self.main_layout.addWidget(self.phones_label)
+        
+        self.phones_entry.show()
         self.main_layout.addWidget(self.phones_entry)
+        
+        self.range_label.show()
         self.main_layout.addWidget(self.range_label)
+        
+        self.range_entry.show()
         self.main_layout.addWidget(self.range_entry)
-        self.main_layout.addWidget(self.confirm_button)
+        
+        # 创建按钮布局
+        button_layout = QHBoxLayout()
+        self.back_button.show()
+        self.confirm_button.show()
+        button_layout.addWidget(self.back_button)
+        button_layout.addWidget(self.confirm_button)
+        self.main_layout.addLayout(button_layout)
         
         # 添加底部弹性空间
         self.main_layout.addStretch()
@@ -241,10 +279,10 @@ class TaskConfigApp(QMainWindow):
             if not self.task_types.size:
                 raise ValueError("未能从Excel文件中提取到任何任务类型")
             
-            # 更新界面
+            # 更新界面，使用 HTML 格式确保数字显示为红色
             count = len(self.task_types)
             self.task_info_label.setText(
-                f"检测到 <span>{count}</span> 种不同的任务类型"
+                f"检测到 <span style='color: #FF4500; font-weight: bold;'>{count}</span> 种不同的任务类型"
             )
             self.show_second_stage()
             
@@ -347,6 +385,31 @@ class TaskConfigApp(QMainWindow):
             
         except Exception as e:
             QMessageBox.critical(self, "错误", f"保存配置时出错：{str(e)}")
+
+    def back_to_first_stage(self):
+        # 清空输入
+        self.phones_entry.clear()
+        self.range_entry.clear()
+        
+        # 隐藏所有组件
+        while self.main_layout.count():
+            item = self.main_layout.takeAt(0)
+            if item.widget():
+                item.widget().hide()
+            elif item.layout():
+                # 清理子布局
+                while item.layout().count():
+                    child = item.layout().takeAt(0)
+                    if child.widget():
+                        child.widget().hide()
+        
+        # 重新添加第一阶段组件
+        self.main_layout.addStretch()  # 顶部弹性空间
+        self.file_label.show()
+        self.main_layout.addWidget(self.file_label)
+        self.select_button.show()
+        self.main_layout.addWidget(self.select_button)
+        self.main_layout.addStretch()  # 底部弹性空间
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
