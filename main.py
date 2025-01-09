@@ -261,24 +261,25 @@ class TaskConfigApp(QMainWindow):
 
     def validate_and_process(self):
         try:
-            phones_per_type = int(self.phones_entry.text().strip())
+            phones_per_type = self.phones_entry.text().strip()  # 使用 text() 方法获取输入
+            if not phones_per_type:  # 检查是否为空
+                raise ValueError("请输入每种类型的手机数量")
+            
+            phones_per_type = int(phones_per_type)  # 转换为整数
             if phones_per_type not in [1, 2]:
                 raise ValueError("每种类型的手机数量必须为1或2")
                 
-            phone_range = self.range_entry.text().strip()
+            phone_range = self.range_entry.text().strip()  # 使用 text() 方法获取输入
             if not phone_range:
                 raise ValueError("请输入手机编号范围")
                 
-            try:
-                phone_numbers = self.parse_phone_range(phone_range)
-            except:
-                raise ValueError("手机编号范围格式错误，请使用类似 '1-8' 或 '01-08' 的格式")
-                
+            phone_numbers = self.parse_phone_range(phone_range)
+            
             expected_count = len(self.task_types) * phones_per_type
             if len(phone_numbers) != expected_count:
                 raise ValueError(
                     f"手机数量不匹配！需要 {expected_count} 部手机，"
-                    f"但输入范围包含 {len(phone_numbers)} 部"
+                    f"但输入了 {len(phone_numbers)} 部"
                 )
                 
             self.update_json_file(phone_numbers, phones_per_type)
@@ -304,7 +305,7 @@ class TaskConfigApp(QMainWindow):
         # 创建自定义消息框
         msg = QMessageBox(self)
         msg.setWindowTitle("成功")
-        msg.setText("配置已成功保存！原文件已备份！")
+        msg.setText("配置已成功保存！原文件已备份！你可以打开Flip检查配置是否正确！")
         
         # 设置图标
         icon_path = Path(__file__).parent / "assets" / "app_icon.icns."
