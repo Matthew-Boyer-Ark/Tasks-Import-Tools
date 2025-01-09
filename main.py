@@ -5,7 +5,7 @@
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                             QLabel, QPushButton, QFileDialog, QMessageBox,
                             QLineEdit, QHBoxLayout)
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSettings
 from PyQt5.QtGui import QIcon
 import json
 import pandas as pd
@@ -16,19 +16,17 @@ import os
 class TaskConfigApp(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.settings = QSettings("YourCompany", "YourApp")  # 设置应用程序名称
+        self.last_file_path = self.settings.value("lastFilePath", "")  # 获取上次文件路径
         self.task_name = ""
         self.task_types = []
         self.phones_per_type = 0
         
-        # 设置应用图标并添加调试信息
-        icon_path = Path(__file__).parent / "assets" / "app_icon.icns"
-        print(f"Looking for icon at: {icon_path}")  
+        # 设置应用图标
+        icon_path = Path(__file__).parent / "assets" / "app_icon.png"
         if icon_path.exists():
-            print("Icon file found")
             self.setWindowIcon(QIcon(str(icon_path)))
-        else:
-            print("Icon file not found")
-            
+        
         self.init_ui()
         
     def init_ui(self):
@@ -83,7 +81,7 @@ class TaskConfigApp(QMainWindow):
         self.main_layout.setSpacing(15)
         
         # 添加顶部弹性空间
-        self.main_layout.addStretch(2)  # 减小顶部权重，从3改为2
+        self.main_layout.addStretch(2)  # 增加顶部权重
         
         # 创建一个容器来包含标题和按钮
         container = QVBoxLayout()
@@ -104,7 +102,7 @@ class TaskConfigApp(QMainWindow):
         self.main_layout.addLayout(container)
         
         # 添加底部弹性空间
-        self.main_layout.addStretch(3)  # 增加底部权重，从2改为3
+        self.main_layout.addStretch(3)  # 增加底部权重
         
         # 第二阶段组件
         self.task_info_label = QLabel()
@@ -154,60 +152,30 @@ class TaskConfigApp(QMainWindow):
         # 添加底部弹性空间
         self.main_layout.addStretch()
         
-    def show_second_stage(self):
-        # 先隐藏第一阶段的组件
-        self.file_label.hide()
-        self.select_button.hide()
-        
-        # 清除所有布局
-        while self.main_layout.count():
-            item = self.main_layout.takeAt(0)
-            if item.layout():
-                while item.layout().count():
-                    child = item.layout().takeAt(0)
-                    if child.widget():
-                        child.widget().hide()
-        
-        # 添加顶部弹性空间
-        self.main_layout.addStretch()
-        
-        # 显示第二阶段组件并添加到布局
-        self.task_info_label.show()
-        self.main_layout.addWidget(self.task_info_label)
-        
-        self.phones_label.show()
-        self.main_layout.addWidget(self.phones_label)
-        
-        self.phones_entry.show()
-        self.main_layout.addWidget(self.phones_entry)
-        
-        self.range_label.show()
-        self.main_layout.addWidget(self.range_label)
-        
-        self.range_entry.show()
-        self.main_layout.addWidget(self.range_entry)
-        
-        # 创建按钮布局
-        button_layout = QHBoxLayout()
-        self.back_button.show()
-        self.confirm_button.show()
-        button_layout.addWidget(self.back_button)
-        button_layout.addWidget(self.confirm_button)
-        self.main_layout.addLayout(button_layout)
-        
-        # 添加底部弹性空间
-        self.main_layout.addStretch()
-        
     def select_excel_file(self):
-        file_path, _ = QFileDialog.getOpenFileName(
-            self,
-            "选择Excel文件",
-            "",
-            "Excel files (*.xlsx *.xls)"
-        )
+        options = QFileDialog.Options()
+        if self.last_file_path:  # 如果有上次的路径，使用它
+            file_path, _ = QFileDialog.getOpenFileName(
+                self,
+                "选择Excel文件",
+                self.last_file_path,  # 使用上次的路径
+                "Excel files (*.xlsx *.xls)",
+                options=options
+            )
+        else:
+            file_path, _ = QFileDialog.getOpenFileName(
+                self,
+                "选择Excel文件",
+                "",
+                "Excel files (*.xlsx *.xls)",
+                options=options
+            )
+        
         if file_path:
+            self.last_file_path = file_path  # 记住当前选择的路径
+            self.settings.setValue("lastFilePath", self.last_file_path)  # 保存路径
             self.process_excel_file(file_path)
-            
+    
     def get_folders_json_path(self):
         """根据操作系统返回 folders.json 的路径"""
         if sys.platform == 'win32':  # Windows
@@ -410,6 +378,52 @@ class TaskConfigApp(QMainWindow):
         self.select_button.show()
         self.main_layout.addWidget(self.select_button)
         self.main_layout.addStretch()  # 底部弹性空间
+
+    def show_second_stage(self):
+        # 隐藏第一阶段的组件
+        self.file_label.hide()
+        self.select_button.hide()
+        
+        # 清除所有布局
+        while self.main_layout.count():
+            item = self.main_layout.takeAt(0)
+            if item.widget():
+                item.widget().hide()
+            elif item.layout():
+                while item.layout().count():
+                    child = item.layout().takeAt(0)
+                    if child.widget():
+                        child.widget().hide()
+        
+        # 添加顶部弹性空间
+        self.main_layout.addStretch()
+        
+        # 显示第二阶段组件并添加到布局
+        self.task_info_label.show()
+        self.main_layout.addWidget(self.task_info_label)
+        
+        self.phones_label.show()
+        self.main_layout.addWidget(self.phones_label)
+        
+        self.phones_entry.show()
+        self.main_layout.addWidget(self.phones_entry)
+        
+        self.range_label.show()
+        self.main_layout.addWidget(self.range_label)
+        
+        self.range_entry.show()
+        self.main_layout.addWidget(self.range_entry)
+        
+        # 创建按钮布局
+        button_layout = QHBoxLayout()
+        self.back_button.show()
+        self.confirm_button.show()
+        button_layout.addWidget(self.back_button)
+        button_layout.addWidget(self.confirm_button)
+        self.main_layout.addLayout(button_layout)
+        
+        # 添加底部弹性空间
+        self.main_layout.addStretch()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
